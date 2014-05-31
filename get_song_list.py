@@ -6,15 +6,20 @@ import json
 import os
 
 HOST = "douban.fm"
-URL = "/j/mine/playlist?type=s&sid=186609&pt=39.6&channel=1&pb=64&from=mainsite"
+
+#华语
+#URL = "/j/mine/playlist?type=s&sid=186609&pt=39.6&channel=1&pb=64&from=mainsite"
+
+#民谣
+URL = "/j/mine/playlist?type=s&sid=480884&pt=18.0&channel=8&pb=64&from=mainsite"
 MAX_SONGS = 20
 
 def get_songlist():
   conn = httplib.HTTPConnection(HOST)
   conn.request("GET", URL)
-  
+
   resp = conn.getresponse()
-  
+
   songlist = []
   if resp.status == 200:
     data = json.loads(resp.read())
@@ -22,7 +27,7 @@ def get_songlist():
       songlist.append(song["url"])
   else:
     print "Get songlist error"
-  
+
   conn.close()
   return songlist
 
@@ -43,8 +48,8 @@ def add_songs():
   for song in songs:
     print "add %s to list" % song
     os.system("mpc add %s" % (song))
-    
-  
+
+
 
 if __name__ == "__main__":
   add_songs()
