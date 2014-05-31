@@ -13,9 +13,20 @@ check_device()
   return $(grep $2 /proc/net/arp|wc -l)
 }
 
+is_paused()
+{
+  return $(mpc status|grep "paused"|wc -l)
+}
+
 play()
 {
-  mpc play
+  is_paused
+  result=$?
+  if [ $result -eq 1 ]; then
+    echo "被暂停了,不强行播放"
+  else
+    mpc play
+  fi
 }
 
 stop()
